@@ -1,0 +1,1146 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home (homeArm)
+  
+  # Location required to calculate the time the sun rises and sets
+  latitude: 37.3239
+  longitude: -121.9144
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 34
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Asia/Bangkok
+
+# Enables support for tracking state changes over time
+history:
+  include:
+    domains:
+      - mobile_app
+      - ios
+      - sensor
+      - switch
+      - media_player
+      - light
+      - input_number
+  exclude:
+    entities:
+      - sensor.air_temperature
+      - sensor.air_humidity
+      - sensor.water_temperature
+      - sensor.ph_sensor
+      - sensor.ec_sensor
+      - sensor.relay_feedback
+      - sensor.dosing_feedback
+      - light.ph_down_pump
+      - light.ph_up_pump
+      - light.ec_a_pump
+      - light.ec_b_pump
+      - light.relay_4ch_1_0
+      - light.relay_4ch_1_1
+      - light.relay_4ch_1_2
+      - light.relay_4ch_1_3
+      - light.relay_2ch_2_0
+      - light.relay_2ch_2_1
+      - input_number.target_ph_min_input
+      - input_number.target_ph_max_input
+      - input_number.target_ec_min_input
+      - input_number.target_ec_max_input
+
+mobile_app:
+ios:
+homekit:
+
+
+
+influxdb:
+  host: 192.168.0.28
+  port: 8086
+  database: testHome_embedded
+  username: embedded2565
+  password: embedded2565
+  max_retries: 3
+  default_measurement: state
+
+frontend:
+  themes: !include_dir_merge_named themes/
+
+################################################
+## Lovelace
+################################################  
+lovelace:
+    mode: yaml
+    resources:
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
+    - url: /hacsfiles/numberbox-card/numberbox-card.js
+      type: module
+    - url: /hacsfiles/slider-button-card/slider-button-card.js
+      type: module
+    - url: /hacsfiles/timer-bar-card/timer-bar-card.js 
+      type: module
+    - url: /hacsfiles/lovelace-mushroom/mushroom.js 
+      type: module
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js 
+      type: module
+    - url: /hacsfiles/analogclock/analogclock.js 
+      type: module
+    - url: https://unpkg.com/moment@2.29.1/min/moment-with-locales.js
+      type: module
+    - url: /hacsfiles/lovelace-clock-card/clock-card.js 
+      type: module
+    - url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js 
+      type: module
+    - url: /local/time-picker-card.js
+      type: module
+    - url: /hacsfiles/history-explorer-card/history-explorer-card.js 
+      type: module
+
+################################################
+## Recorder
+################################################ 
+
+recorder:
+  db_url: mysql://homeassistant:homeassistant@core-mariadb/homeassistant?charset=utf8mb4
+  commit_interval: 60
+# below are some examples of includes. You can enter your own sensors here.
+  include:
+    domains:
+      - automation
+      - updater
+      - light
+      - input_number
+      - sensor
+    entities:
+      - sensor.air_temperature
+      - sensor.air_humidity
+      - sensor.water_temperature
+      - sensor.ph_sensor
+      - sensor.ec_sensor
+      - sensor.relay_feedback
+      - sensor.dosing_feedback
+      - light.ph_down_pump
+      - light.ph_up_pump
+      - light.ec_a_pump
+      - light.ec_b_pump
+      - light.relay_4ch_1_0
+      - light.relay_4ch_1_1
+      - light.relay_4ch_1_2
+      - light.relay_4ch_1_3
+      - light.relay_2ch_2_0
+      - light.relay_2ch_2_1
+      - input_number.target_ph_min_input
+      - input_number.target_ph_max_input
+      - input_number.target_ec_min_input
+      - input_number.target_ec_max_input
+
+################################################
+## MQTT
+################################################  
+
+mqtt:
+
+    light:
+      - name: "show pump ph up status"
+        # state_topic: "feedback/relays"
+        command_topic: "esp32iotsensor/CustomPump"
+        
+      - name: "show pump ph down status"
+        command_topic: "esp32iotsensor/CustomPump"
+        
+# MQTT (DOSING PUMPS)       #Pump numbers match indexes in arrays in ESP32 code. 0 = pH Down, 1 =  pH Up, 2 = EC A, 3 = EC B
+      - name: "Relay 4CH_1 0"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "0:0:1"
+        payload_off: "0:0:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "Relay 4CH_1 1"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "0:1:1"
+        payload_off: "0:1:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "Relay 4CH_1 2"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "0:2:1"
+        payload_off: "0:2:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "Relay 4CH_1 3"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "0:3:1"
+        payload_off: "0:3:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "Relay 2CH_2 0"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "1:0:1"
+        payload_off: "1:0:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "Relay 2CH_2 1"
+        # state_topic: "feedback/relays"
+        command_topic: "control/relays"
+        payload_on: "1:1:1"
+        payload_off: "1:1:0"
+        optimistic: false
+        qos: 0
+        retain: true
+        
+# MQTT (DOSING PUMPS)       #Pump numbers match indexes in arrays in ESP32 code. 0 = pH Down, 1 =  pH Up, 2 = EC A, 3 = EC B
+      - name: "pH Down Pump"
+        # state_topic: "feedback/dosing"
+        command_topic: "control/dosing"
+        payload_on: "0:5000"   #Format is <pumpNumber><onTime(in milliseconds)>... Sending 60000 means the pump can only run for 1 minute max when turned on manually, to prevent damage.
+        payload_off: "0:0"      #Sending "00" as the second parameter will stop the pump regardless of what the initial "on time" was set to.
+        optimistic: false
+        qos: 0
+        retain: true
+        
+      - name: "pH Up Pump"
+        # state_topic: "feedback/dosing"
+        command_topic: "control/dosing"
+        payload_on: "1:5000"   #Format is <pumpNumber><onTime(in milliseconds)>... Sending 60000 means the pump can only run for 1 minute max when turned on manually, to prevent damage.
+        payload_off: "1:0"      #Sending "00" as the second parameter will stop the pump regardless of what the initial "on time" was set to.
+        optimistic: false
+        qos: 0
+        retain: true
+
+      - name: "EC A Pump"
+        # state_topic: "feedback/dosing"
+        command_topic: "control/dosing"
+        payload_on: "2:5000"   #Format is <pumpNumber><onTime(in milliseconds)>... Sending 60000 means the pump can only run for 1 minute max when turned on manually, to prevent damage.
+        payload_off: "2:0"      #Sending "00" as the second parameter will stop the pump regardless of what the initial "on time" was set to.
+        optimistic: false
+        qos: 0
+        retain: true
+
+      - name: "EC B Pump"
+        # state_topic: "feedback/dosing"
+        command_topic: "control/dosing"
+        payload_on: "3:5000"   #Format is <pumpNumber><onTime(in milliseconds)>... Sending 60000 means the pump can only run for 1 minute max when turned on manually, to prevent damage.
+        payload_off: "3:0"      #Sending "00" as the second parameter will stop the pump regardless of what the initial "on time" was set to.
+        optimistic: false
+        qos: 0
+        retain: true
+        
+################################## SENSORS #####################################        
+    sensor:
+      - state_topic: "esp32iotsensor/CustomSensor"
+        unit_of_measurement: "°C"
+        name: "air temperature"
+        device_class: "temperature"
+        value_template: "{{ '%.2f' | format(value_json.airtemp)}}"
+        
+      - state_topic: "esp32iotsensor/CustomSensor"
+        unit_of_measurement: "%"
+        name: "air humidity"
+        device_class: "humidity"
+        value_template: "{{ '%.2f' | format(value_json.airhum)}}"
+        
+      - state_topic: "esp32iotsensor/CustomSensor"
+        unit_of_measurement: "°C"
+        name: "water temperature"
+        device_class: "temperature"
+        value_template: "{{ '%.2f' | format(value_json.watertemp)}}"
+        
+      - state_topic: "esp32iotsensor/CustomSensor"
+        unit_of_measurement: "pH"
+        name: "ph sensor"
+        device_class: "water"
+        value_template: "{{ '%.2f' | format(value_json.waterph)}}"
+        
+      - state_topic: "esp32iotsensor/CustomSensor"
+        unit_of_measurement: "ms/cm"
+        name: "ec sensor"
+        device_class: "water"
+        value_template: "{{ '%.2f' | format(value_json.waterec)}}"
+        
+
+      - state_topic: "feedback/relays"
+        name: "Relay Feedback"
+        
+      - state_topic: "feedback/dosing"
+        name: "Dosing Feedback"
+
+
+################################################
+## Binary_sensor
+################################################  
+binary_sensor:
+  - platform: template
+    sensors:
+      programmer_1_running:
+        value_template: >
+          {{ (now().strftime('%H:%M:%S') >= states('input_datetime.programme_timer_1_on')) and
+             (now().strftime('%H:%M:%S') < states('input_datetime.programme_timer_1_off')) and
+             (states('input_boolean.programme_1_enabled') == 'on') }}
+      programme_2_running:
+        value_template: >
+          {{ (now().strftime('%H:%M:%S') >= states('input_datetime.programme_timer_2_on')) and
+             (now().strftime('%H:%M:%S') < states('input_datetime.programme_timer_2_off')) and
+             (states('input_boolean.programme_2_enabled') == 'on') }}
+      programme_3_running:
+        value_template: >
+          {{ (now().strftime('%H:%M:%S') >= states('input_datetime.programme_timer_3_on')) and
+             (now().strftime('%H:%M:%S') < states('input_datetime.programme_timer_3_off')) and
+             (states('input_boolean.programme_3_enabled') == 'on') }}
+      programme_4_running:
+        value_template: >
+          {{ (now().strftime('%H:%M:%S') >= states('input_datetime.programme_timer_4_on')) and
+             (now().strftime('%H:%M:%S') < states('input_datetime.programme_timer_4_off')) and
+             (states('input_boolean.programme_4_enabled') == 'on') }}
+
+
+################################################
+## light
+################################################          
+light:
+  - platform: template
+    lights:
+      control_dosing_0_ph_up:
+        friendly_name: "control dosing 0 ph up"
+        turn_on:
+          service: light.turn_on
+          entity_id: light.control_dosing_0_ph_up
+        turn_off:
+          service: light.turn_off
+          entity_id: light.control_dosing_0_ph_up
+          
+      control_dosing_1_ph_down:
+        friendly_name: "control dosing 1 ph down"
+        turn_on:
+          service: light.turn_on
+          entity_id: light.control_dosing_1_ph_down
+        turn_off:
+          service: light.turn_off
+          entity_id: light.control_dosing_1_ph_down
+          
+      control_dosing_2_ec_a:
+        friendly_name: "control dosing 2 ec a"
+        turn_on:
+          service: light.turn_on
+          entity_id: light.control_dosing_2_ec_a
+        turn_off:
+          service: light.turn_off
+          entity_id: light.control_dosing_2_ec_a
+          
+      control_dosing_3_ec_b:
+        friendly_name: "control dosing 3 ec b"
+        turn_on:
+          service: light.turn_on
+          entity_id: light.control_dosing_3_ec_b
+        turn_off:
+          service: light.turn_off
+          entity_id: light.control_dosing_3_ec_b
+          
+sensor:
+  # Minimal configuration of the standard time and date sensor
+  - platform: time_date
+    display_options:
+      - 'date_time_iso'
+  # Build on the standard sensor to produce one that can be customized
+template:
+  - sensor:
+      - name: "Date and time"
+        state: "{{ as_timestamp(states('sensor.date_time_iso')) | timestamp_custom('%A %-d %B %Y, %H:%M') }}"
+        icon: "mdi:calendar-clock"
+    
+################################################
+## Input_number
+################################################    
+        
+################################ INPUT NUMBERS #################################
+
+input_number:
+  target_ph_min_input:
+    name: Target pH min
+    min: 5.8
+    max: 6.5
+    step: .1
+    icon: mdi:bullseye
+    unit_of_measurement: pH
+
+  target_ph_max_input:
+    name: Target pH max
+    min: 6.7
+    max: 8.5
+    step: .1
+    icon: mdi:bullseye
+    unit_of_measurement: pH
+    
+  target_ec_min_input:
+    name: Target EC min
+    min: 0.5
+    max: 2
+    step: .1
+    icon: mdi:bullseye
+    unit_of_measurement: ms/cm
+
+  target_ec_max_input:
+    name: Target EC max
+    min: 2.2
+    max: 4.5
+    step: .1
+    icon: mdi:bullseye
+    unit_of_measurement: ms/cm
+    
+  # MANUAL NUTE DISPENSING AND PUMP SPEEDS  
+  dosing_pwm_0_ph_down:
+    name: pH Down PWM
+    mode: box
+    min: 190
+    max: 255
+    icon: mdi:speedometer
+    unit_of_measurement: 'PWM'
+  dosing_pwm_1_ph_up:
+    name: pH Up PWM
+    mode: box
+    min: 190
+    max: 255
+    icon: mdi:speedometer
+    unit_of_measurement: 'PWM'
+  dosing_pwm_2_ec_a:
+    name: EC A PWM
+    mode: box
+    min: 190
+    max: 255
+    icon: mdi:speedometer
+    unit_of_measurement: 'PWM'
+  dosing_pwm_3_ec_b:
+    name: EC B PWM
+    mode: box
+    min: 190
+    max: 255
+    icon: mdi:speedometer
+    unit_of_measurement: 'PWM'
+
+################################################
+## Input_boolean
+################################################
+
+input_boolean:
+
+    # True/False to mode overall programme status
+    # Set TRUE if programme is selected (On by user) and system time is within user set time range.
+ 
+    programmer_running:
+      name: programmer_running
+
+    # Programme 1 selector On/Off appearing in lovelace as a button card.
+    # User can tap this to toggle between On and Off.
+ 
+    programme_1_enabled:
+      name: programme_1_enabled
+
+    # Programme 2 selector On/Off appearing in lovelace as a button card.
+    # User can tap this to toggle between On and Off.
+
+    programme_2_enabled:
+      name: programme_2_enabled 
+      
+    # Programme 3 selector On/Off appearing in lovelace as a button card.
+    # User can tap this to toggle between On and Off.
+      
+    programme_3_enabled:
+      name: programme_3_enabled
+
+    # Programme 4 selector On/Off appearing in lovelace as a button card.
+    # User can tap this to toggle between On and Off.
+
+    programme_4_enabled:
+      name: programme_4_enabled   
+      
+      
+################################################
+## Input_datetime
+################################################
+input_datetime:
+
+    # Programme On/Off times.
+    # User can set this in lovelace card.
+
+    programme_timer_1_on:
+      name: programme_timer_1_on
+      has_date: false
+      has_time: true
+
+    programme_timer_1_off:
+      name: programme_timer_1_off
+      has_date: false
+      has_time: true
+
+    programme_timer_2_on:
+      name: programme_timer_2_on
+      has_date: false
+      has_time: true
+
+    programme_timer_2_off:
+      name: programme_timer_2_off
+      has_date: false
+      has_time: true 
+      
+    programme_timer_3_on:
+      name: programme_timer_3_on
+      has_date: false
+      has_time: true
+
+    programme_timer_3_off:
+      name: programme_timer_3_off
+      has_date: false
+      has_time: true 
+      
+    programme_timer_4_on:
+      name: programme_timer_4_on
+      has_date: false
+      has_time: true
+
+    programme_timer_4_off:
+      name: programme_timer_4_off
+      has_date: false
+      has_time: true 
+  
+
+         
+################################################
+## Automation
+################################################
+automation:
+  - alias: "Turn on ph_down_pump if pH value is too high"
+    trigger:
+      platform: time_pattern
+      seconds: "/30"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.ph_sensor') | float > states('input_number.target_ph_max_input') | float }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "control/dosing"
+          payload: "0:5000"
+      - service: mqtt.publish
+        data_template:
+          topic: "control/relays"
+          payload: "1:0:1"
+
+  - alias: "Turn on ph_up_pump if pH value is too low"
+    trigger:
+      platform: time_pattern
+      seconds: "/30"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.ph_sensor') | float < states('input_number.target_ph_min_input') | float }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "control/dosing"
+          payload: "1:5000"
+      - service: mqtt.publish
+        data_template:
+          topic: "control/relays"
+          payload: "1:0:1"
+
+  - alias: "Turn on ec_a_pumps if EC value is too low"
+    trigger:
+      platform: time_pattern
+      seconds: "/30"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.ec_sensor') | float < states('input_number.target_ec_min_input') | float }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "control/dosing"
+          payload: "2:5000"
+      - service: mqtt.publish
+        data_template:
+          topic: "control/relays"
+          payload: "1:0:1"
+
+  - alias: "Turn on ec_b_pumps if EC value is too low"
+    trigger:
+      platform: time_pattern
+      seconds: "/30"
+    condition:
+      condition: template
+      value_template: "{{ states('sensor.ec_sensor') | float < states('input_number.target_ec_min_input') | float }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "control/dosing"
+          payload: "3:5000"
+      - service: mqtt.publish
+        data_template:
+          topic: "control/relays"
+          payload: "1:0:1"
+
+  - alias: "pH and EC is nomal"
+    trigger:
+      platform: time_pattern
+      seconds: "/30"
+    condition:
+      - condition: template
+        value_template: "{{ states('sensor.ec_sensor') | float >= states('input_number.target_ec_min_input') | float }}"
+      - condition: template
+        value_template: "{{ states('sensor.ph_sensor') | float >= states('input_number.target_ph_min_input') | float }}"
+      - condition: template
+        value_template: "{{ states('sensor.ph_sensor') | float <= states('input_number.target_ph_max_input') | float }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "control/relays"
+          payload: "1:0:0"
+
+#   - alias: "Turn on ec_pumps if EC value is too low"
+#     trigger:
+#       platform: time_pattern
+#       seconds: 60
+#     condition:
+#       condition: template
+#       value_template: "{{ states('sensor.ec_sensor') | float < states('input_number.target_ec_min_input') | float }}"
+#     action:
+#       - service: mqtt.publish
+#         data:
+#           topic: 'control/dosing'
+#           payload_template: "{{ '2:5000' if trigger.entity_id == 'sensor.ec_sensor' else '3:5000' }}"
+#       - delay: '00:00:05'
+#       - service: mqtt.publish
+#         data:
+#           topic: 'control/dosing'
+#           payload: '2:0'
+
+  - alias: "Publish Light State On P"
+    trigger:
+      platform: state
+      entity_id:
+        - light.ph_down_pump
+        - light.ph_up_pump
+        - light.ec_a_pump
+        - light.ec_b_pump
+    action:
+      service: mqtt.publish
+      data_template:
+        topic: "control/dosing"
+        payload_template: >
+          {% if trigger.to_state.state == 'on' %}
+            {% if trigger.entity_id == 'light.ph_down_pump' %}
+              0:5000
+            {% elif trigger.entity_id == 'light.ph_up_pump' %}
+              1:5000
+            {% elif trigger.entity_id == 'light.ec_a_pump' %}
+              2:5000
+            {% elif trigger.entity_id == 'light.ec_b_pump' %}
+              3:5000
+            {% endif %}
+          {% elif trigger.to_state.state == 'off' %}
+            {% if trigger.entity_id == 'light.ph_down_pump' %}
+              0:0
+            {% elif trigger.entity_id == 'light.ph_up_pump' %}
+              1:0
+            {% elif trigger.entity_id == 'light.ec_a_pump' %}
+              2:0
+            {% elif trigger.entity_id == 'light.ec_b_pump' %}
+              3:0
+            {% endif %}
+          {% endif %}
+
+  - alias: "Publish Light State On B0"
+    trigger:
+      platform: state
+      entity_id:
+        - light.relay_4ch_1_0
+        - light.relay_4ch_1_1
+        - light.relay_4ch_1_2
+        - light.relay_4ch_1_3
+    action:
+      service: mqtt.publish
+      data_template:
+        topic: "control/relays"
+        payload_template: >
+          {% if trigger.to_state.state == 'on' %}
+            {% if trigger.entity_id == 'light.relay_4ch_1_0' %}
+              0:0:1
+            {% elif trigger.entity_id == 'light.relay_4ch_1_1' %}
+              0:1:1
+            {% elif trigger.entity_id == 'light.relay_4ch_1_2' %}
+              0:2:1
+            {% elif trigger.entity_id == 'light.relay_4ch_1_3' %}
+              0:3:1
+            {% endif %}
+          {% elif trigger.to_state.state == 'off' %}
+            {% if trigger.entity_id == 'light.relay_4ch_1_0' %}
+              0:0:0
+            {% elif trigger.entity_id == 'light.relay_4ch_1_1' %}
+              0:1:0
+            {% elif trigger.entity_id == 'light.relay_4ch_1_2' %}
+              0:2:0
+            {% elif trigger.entity_id == 'light.relay_4ch_1_3' %}
+              0:3:0
+            {% endif %}
+          {% endif %}
+
+  - alias: "Publish Light State On B1"
+    trigger:
+      platform: state
+      entity_id:
+        - light.relay_2ch_2_0
+        - light.relay_2ch_2_1
+    action:
+      service: mqtt.publish
+      data_template:
+        topic: "control/relays"
+        payload_template: >
+          {% if trigger.to_state.state == 'on' %}
+            {% if trigger.entity_id == 'light.relay_2ch_2_0' %}
+              1:0:1
+            {% elif trigger.entity_id == 'light.relay_2ch_2_1' %}
+              1:1:1
+            {% endif %}
+          {% elif trigger.to_state.state == 'off' %}
+            {% if trigger.entity_id == 'light.relay_2ch_2_0' %}
+              1:0:0
+            {% elif trigger.entity_id == 'light.relay_2ch_2_1' %}
+              1:1:0
+            {% endif %}
+          {% endif %}
+################################################################################
+    #####
+  - alias: Turn on show pump ph down status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '0:1'
+    action:
+        service: light.turn_on
+        entity_id: light.ph_down_pump
+        
+  - alias: Turn off show pump ph down status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '0:0'
+    action:
+        service: light.turn_off
+        entity_id: light.ph_down_pump
+    #####
+  - alias: Turn on show pump ph up status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '1:1'
+    action:
+        service: light.turn_on
+        entity_id: light.ph_up_pump
+        
+  - alias: Turn off show pump ph up status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '1:0'
+    action:
+        service: light.turn_off
+        entity_id: light.ph_up_pump
+    
+    #####
+  - alias: Turn on show pump ec a status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '2:1'
+    action:
+        service: light.turn_on
+        entity_id: light.ec_a_pump
+        
+  - alias: Turn off show pump ec a status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '2:0'
+    action:
+        service: light.turn_off
+        entity_id: light.ec_a_pump
+
+    #####
+  - alias: Turn on show pump ec b status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '3:1'
+    action:
+        service: light.turn_on
+        entity_id: light.ec_b_pump
+        
+  - alias: Turn off show pump ec b status
+    trigger:
+        platform: state
+        entity_id: sensor.dosing_feedback
+        to: '3:0'
+    action:
+        service: light.turn_off
+        entity_id: light.ec_b_pump
+              
+## Relay Board0 ################################################################
+    #####
+  - alias: Turn on show relay b0 1 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:0:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_0
+        
+  - alias: Turn off show relay b0 1 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:0:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_0
+    #####
+  - alias: Turn on show relay b0 2 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:1:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_1
+        
+  - alias: Turn off show relay b0 2 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:1:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_1
+    
+    #####
+  - alias: Turn on show relay b0 3 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:2:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_2
+        
+  - alias: Turn off show relay b0 3 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:2:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_2
+
+    #####
+  - alias: Turn on show relay b0 4 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:3:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_3
+        
+  - alias: Turn off show relay b0 4 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '0:3:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_3
+        
+## Relay Board1 ################################################################
+    #####
+  - alias: Turn on show relay b1 0 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '1:0:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_2ch_2_0
+        
+  - alias: Turn off show relay b1 0 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '1:0:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_2ch_2_0
+
+    #####
+  - alias: Turn on show relay b1 1 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '1:1:1'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_2ch_2_1
+        
+  - alias: Turn off show relay b0 4 status
+    trigger:
+        platform: state
+        entity_id: sensor.relay_feedback
+        to: '1:1:0'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_2ch_2_1
+        
+# =============== pH setting # =============== #
+
+# =============== Relay  =============== #    
+    # =============== Relay1  =============== #
+  - alias: Set programme running on timer 1
+    trigger:
+      - platform: time
+        after: input_datetime.programme_timer_1_on
+        before: input_datetime.programme_timer_1_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_1_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.programmer_1_running
+
+  - alias: Set programme off on timer 1
+    trigger:
+      - platform: time
+        before: input_datetime.programme_timer_1_on
+        after: input_datetime.programme_timer_1_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_1_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.programmer_1_running
+        
+     
+  - alias: Turn on light.relay_1 when programmer_1_running is turned on
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programmer_1_running
+        to: 'on'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_0
+        
+  - alias: Turn off light.relay_1 when programmer_1_running is turned off
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programmer_1_running
+        to: 'off'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_0
+
+    # ======================================================================= #
+    # =============== Relay2  =============== #
+  - alias: Set programme running on timer 2
+    trigger:
+      - platform: time
+        after: input_datetime.programme_timer_2_on
+        before: input_datetime.programme_timer_2_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_2_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.programme_2_running
+
+  - alias: Set programme off on timer 2
+    trigger:
+      - platform: time
+        before: input_datetime.programme_timer_2_on
+        after: input_datetime.programme_timer_2_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_2_running
+      state: 'true'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.programme_2_running
+        
+  - alias: Turn on light.relay_2 when programme_2_running is turned on
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_2_running
+        to: 'on'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_1
+        
+  - alias: Turn off light.relay_2 when programme_2_running is turned off
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_2_running
+        to: 'off'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_1
+
+    # ======================================================================= #
+    # =============== Relay3  =============== #
+  - alias: Set programme running on timer 3
+    trigger:
+      - platform: time
+        after: input_datetime.programme_timer_3_on
+        before: input_datetime.programme_timer_3_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_3_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.programme_3_running
+
+  - alias: Set programme off on timer 3
+    trigger:
+      - platform: time
+        before: input_datetime.programme_timer_3_on
+        after: input_datetime.programme_timer_3_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_3_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.programme_3_running
+        
+        
+  - alias: Turn on light.relay_3 when programme_3_running is turned on
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_3_running
+        to: 'on'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_2
+        
+  - alias: Turn off light.relay_3 when programme_3_running is turned off
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_3_running
+        to: 'off'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_2
+
+    # ======================================================================= #
+    # =============== Relay4  =============== #
+  - alias: Set programme running on timer 4
+    trigger:
+      - platform: time
+        after: input_datetime.programme_timer_4_on
+        before: input_datetime.programme_timer_4_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_4_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.programme_4_running
+
+  - alias: Set programme off on timer 4
+    trigger:
+      - platform: time
+        before: input_datetime.programme_timer_4_on
+        after: input_datetime.programme_timer_4_off
+    condition:
+      condition: state
+      entity_id: input_boolean.programme_4_enabled
+      state: 'true'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.programme_4_running
+        
+  - alias: Turn on light.relay_4 when programme_4_running is turned on
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_4_running
+        to: 'on'
+    action:
+        service: light.turn_on
+        entity_id: light.relay_4ch_1_3
+        
+  - alias: Turn off light.relay_4 when programme_4_running is turned off
+    trigger:
+        platform: state
+        entity_id: binary_sensor.programme_4_running
+        to: 'off'
+    action:
+        service: light.turn_off
+        entity_id: light.relay_4ch_1_3
+        
+    # ======================================================================= #
+  - alias: Update Dosing Pump PWM
+    trigger:
+        platform: state
+        entity_id: 
+            - input_number.dosing_pwm_0_ph_down
+            - input_number.dosing_pwm_1_ph_up
+            - input_number.dosing_pwm_2_ec_a
+            - input_number.dosing_pwm_3_ec_b
+    action:
+      - service: mqtt.publish
+        data_template:
+            topic: 'calibrate/dosing'
+            retain: true
+            payload_template: ' {{ trigger.entity_id.split("_")[3] }}:{{ (trigger.to_state.state)| int }} '
+            
+  - alias: Control Dosing Pump PWM
+    trigger:
+        platform: state
+        entity_id: 
+            - light.control_dosing_0_ph_down
+            - light.control_dosing_1_ph_up
+            - light.control_dosing_2_ec_a
+            - light.control_dosing_3_ec_b
+    action:
+      - service: mqtt.publish
+        data_template:
+            topic: 'control/dosing'
+            retain: true
+            payload_template:  ' {{ trigger.entity_id.split("_")[2] }}:{{trigger.to_state.state}} '
+            
+            
+
+            
+################################################
+## Automation
+################################################
+
+
+
+
+
+
+
+    
+

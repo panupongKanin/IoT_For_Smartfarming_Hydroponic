@@ -1,0 +1,816 @@
+title: Home (homeArm)
+views:
+  - title: Sensor
+    path: sensor
+    icon: mdi:devices
+    subview: false
+    theme: Mushroom
+    type: custom:horizontal-layout
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: entity
+                            entity: input_number.target_ph_min_input
+                            icon: mdi:bullseye
+                            icon_color: cyan
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                          - type: entity
+                            entity: sensor.ph_sensor
+                            icon: ''
+                            icon_color: light-blue
+                            name: ec
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                          - type: entity
+                            entity: input_number.target_ph_max_input
+                            icon: ''
+                            icon_color: cyan
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                  - type: custom:mushroom-chips-card
+                    chips:
+                      - type: light
+                        entity: light.ph_up_pump
+                        name: Dosing Pump pH up ⬆︎
+                        content_info: name
+                        icon: mdi:water-pump
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: none
+                      - type: light
+                        entity: light.ph_down_pump
+                        name: Dosing Pump pH down ⬇︎
+                        content_info: name
+                        icon: mdi:water-pump
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: none
+          - type: custom:mushroom-title-card
+            title: pH SENSOR 💧
+          - type: vertical-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.ph_sensor
+                name: pH SENSOR
+                hours_to_show: 168
+                points_per_hour: 0.25
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-number-card
+                entity: input_number.target_ph_min_input
+                icon_color: lime
+                display_mode: buttons
+                layout: horizontal
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-number-card
+                entity: input_number.target_ph_max_input
+                icon_color: teal
+                fill_container: false
+                layout: horizontal
+                display_mode: buttons
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: entity
+                            entity: input_number.target_ec_min_input
+                            icon: mdi:bullseye
+                            icon_color: cyan
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                          - type: entity
+                            entity: sensor.ec_sensor
+                            icon: ''
+                            icon_color: light-blue
+                            name: ec
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                          - type: entity
+                            entity: input_number.target_ec_max_input
+                            icon: ''
+                            icon_color: cyan
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: none
+                  - type: custom:mushroom-chips-card
+                    chips:
+                      - type: light
+                        entity: light.ec_a_pump
+                        name: Dosing Pump EC A up ⬆︎
+                        content_info: name
+                        icon: mdi:water-pump
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: none
+                      - type: light
+                        entity: light.ec_b_pump
+                        name: Dosing Pump EC B up ⬆︎
+                        content_info: name
+                        icon: mdi:water-pump
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: none
+          - type: custom:mushroom-title-card
+            title: EC SENSOR 💧
+          - type: vertical-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.ec_sensor
+                name: EC SENSOR
+                hours_to_show: 168
+                points_per_hour: 0.25
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-number-card
+                entity: input_number.target_ec_min_input
+                icon_color: lime
+                display_mode: buttons
+                layout: horizontal
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-number-card
+                entity: input_number.target_ec_max_input
+                icon_color: teal
+                fill_container: false
+                layout: horizontal
+                display_mode: buttons
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.water_temperature
+            show:
+              labels: true
+            color_thresholds:
+              - value: 20
+                color: '#f39c12'
+              - value: 21
+                color: '#d35400'
+              - value: 21.5
+                color: '#c0392b'
+            name: Water Temperature
+            hours_to_show: 1
+            points_per_hour: 168
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.air_temperature
+                show_state: true
+                show_graph: false
+              - entity: sensor.air_humidity
+                show_state: true
+                show_graph: false
+              - entity: sensor.air_temperature
+                color: green
+                show_state: false
+                name: Temperature
+              - entity: sensor.air_humidity
+                color: orange
+                show_state: false
+                name: Humidity
+            name: DHT22 Sensor
+            hours_to_show: 1
+            points_per_hour: 60
+            show:
+              name: true
+              legend: true
+              icon: false
+              labels: true
+      - type: custom:layout-break
+  - title: Graph
+    path: Graph
+    theme: Mushroom Shadow
+    type: custom:grid-layout
+    icon: mdi:graph
+    badges: []
+    cards:
+      - type: custom:history-explorer-card
+        header: DHT22 SENSOR
+        showUnavailable: false
+        defaultTimeRange: 1h
+        decimation: true
+        uiColors:
+          gridlines: dimgray
+          labels: orangered
+          buttons: orangered
+          selector: rgba(255,255,255,255)
+          closeButton: '#0000001f'
+        graphs:
+          - type: line
+            entities:
+              - entity: sensor.air_temperature
+                color: orangered
+                fill: rgba(255,69,0,0.15)
+              - entity: sensor.air_humidity
+                color: steelblue
+                fill: rgba(151,187,205,0.15)
+              - entity: sensor.water_temperature
+                color: rgb(0, 121, 255)
+                fill: rgba(0, 121, 255,0.15)
+      - type: custom:history-explorer-card
+        header: DS18B20 SENSOR
+        showUnavailable: false
+        defaultTimeRange: 1h
+        decimation: true
+        uiColors:
+          gridlines: dimgray
+          labels: orangered
+          buttons: orangered
+          selector: rgba(255,255,255,255)
+          closeButton: '#0000001f'
+        graphs:
+          - type: line
+            entities:
+              - entity: sensor.water_temperature
+                color: rgb(0, 121, 255)
+                fill: rgba(0, 121, 255,0.15)
+      - type: custom:history-explorer-card
+        header: pH SENSOR
+        showUnavailable: false
+        defaultTimeRange: 1h
+        decimation: true
+        uiColors:
+          gridlines: dimgray
+          labels: rgb(255, 0, 96)
+          buttons: rgb(255, 0, 96)
+          selector: rgba(255,255,255,255)
+          closeButton: '#0000001f'
+        graphs:
+          - type: line
+            entities:
+              - entity: input_number.target_ph_min_input
+                color: rgb(255, 225, 98)
+                fill: rgba(255, 225, 98,0.15)
+              - entity: sensor.ph_sensor
+                color: rgb(145, 196, 131)
+                fill: rgba(145, 196, 131,0.15)
+              - entity: input_number.target_ph_max_input
+                color: rgb(255, 100, 100)
+                fill: rgba(255, 100, 100,0.15)
+          - type: timeline
+            title: DOSING PUMP STAUTS
+            entities:
+              - entity: light.ph_down_pump
+                name: pH Down
+              - entity: light.ph_up_pump
+                name: pH Up
+      - type: custom:history-explorer-card
+        header: EC SENSOR
+        showUnavailable: false
+        defaultTimeRange: 1h
+        decimation: true
+        uiColors:
+          gridlines: dimgray
+          labels: rgb(255, 0, 96)
+          buttons: rgb(255, 0, 96)
+          selector: rgba(255,255,255,255)
+          closeButton: '#0000001f'
+        graphs:
+          - type: line
+            entities:
+              - entity: input_number.target_ec_min_input
+                color: rgb(152, 216, 170)
+                fill: rgba(152, 216, 170,0.15)
+              - entity: sensor.ph_sensor
+                color: rgb(243, 233, 159)
+                fill: rgba(243, 233, 159,0.15)
+              - entity: input_number.target_ec_max_input
+                color: rgb(255, 109, 96)
+                fill: rgba(255, 109, 96,0.15)
+          - type: timeline
+            title: DOSING PUMP STAUTS
+            entities:
+              - entity: light.ph_down_pump
+                name: EC [A]
+              - entity: light.ph_up_pump
+                name: EC [B]
+      - type: custom:history-explorer-card
+        header: Relay Status
+        defaultTimeRange: 1h
+        uiColors:
+          gridlines: dimgray
+          labels: rgb(31, 138, 112)
+          buttons: rgb(31, 138, 112)
+          selector: rgba(255,255,255,255)
+          closeButton: '#0000001f'
+        stateColors:
+          binary_sensor.on: darkgreen
+          binary_sensor.off: orangered
+        graphs:
+          - type: timeline
+            entities:
+              - entity: light.relay_2ch_2_0
+                name: MIX P
+              - entity: light.relay_2ch_2_1
+                name: WATER P
+              - entity: light.relay_4ch_1_0
+                name: R CH1
+              - entity: light.relay_4ch_1_1
+                name: R CH2
+              - entity: light.relay_4ch_1_2
+                name: R CH3
+              - entity: light.relay_4ch_1_3
+                name: R CH4
+  - title: Relay & Timer
+    path: dadada
+    type: custom:grid-layout
+    theme: Mushroom Shadow
+    icon: mdi:av-timer
+    badges: []
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.date_and_time
+                name: ' '
+              - type: custom:mushroom-title-card
+                title: Control Relay [1]
+                alignment: center
+                title_tap_action:
+                  action: none
+                subtitle_tap_action:
+                  action: none
+              - square: true
+                type: grid
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_4ch_1_0
+                    icon: mdi:toggle-switch-variant
+                    icon_color: red
+                    layout: vertical
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    name: Relay 1 CH1
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_4ch_1_1
+                    icon: mdi:toggle-switch-variant
+                    icon_color: red
+                    layout: vertical
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    name: Relay 1 CH2
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_4ch_1_2
+                    icon: mdi:toggle-switch-variant
+                    icon_color: red
+                    layout: vertical
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    name: Relay 1 CH3
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_4ch_1_3
+                    icon: mdi:toggle-switch-variant
+                    icon_color: red
+                    layout: vertical
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    name: Relay 1 CH4
+                columns: 4
+              - type: custom:mushroom-title-card
+                title: Enable Timer Program [1]
+                subtitle: ''
+                alignment: center
+                title_tap_action:
+                  action: none
+                subtitle_tap_action:
+                  action: none
+              - square: false
+                type: grid
+                cards:
+                  - show_name: true
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.programme_1_enabled
+                    theme: Mushroom Shadow
+                    icon_height: 50px
+                    hold_action:
+                      action: none
+                    name: '[En] Relay 1 CH 1'
+                  - show_name: true
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.programme_2_enabled
+                    theme: Mushroom Shadow
+                    icon_height: 50px
+                    hold_action:
+                      action: none
+                    name: '[En] Relay 1 CH 2'
+                  - show_name: true
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.programme_3_enabled
+                    theme: Mushroom Shadow
+                    icon_height: 50px
+                    hold_action:
+                      action: none
+                    name: '[En] Relay 1 CH 3'
+                  - show_name: true
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.programme_4_enabled
+                    theme: Mushroom Shadow
+                    icon_height: 50px
+                    hold_action:
+                      action: none
+                    name: '[En] Relay 1 CH 4'
+                columns: 4
+          - type: vertical-stack
+            cards:
+              - type: custom:gap-card
+                height: 70
+              - type: custom:mushroom-title-card
+                title: Control Pumps
+                subtitle: ''
+                alignment: center
+              - square: true
+                type: grid
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_2ch_2_0
+                    name: MIX Pump
+                    icon: mdi:water-pump
+                    layout: vertical
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    icon_color: deep-orange
+                    fill_container: true
+                  - type: custom:mushroom-light-card
+                    entity: light.relay_2ch_2_1
+                    name: Water Pump
+                    icon: mdi:water-pump
+                    icon_color: amber
+                    layout: vertical
+                    fill_container: true
+                    double_tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                columns: 2
+      - type: custom:layout-break
+      - type: horizontal-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Relay 1
+                    subtitle_tap_action:
+                      action: none
+                    title_tap_action:
+                      action: none
+                    alignment: center
+                columns: 1
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_1_on
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 1 ON
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_1_off
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 1 OFF
+                columns: 2
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Relay 2
+                    subtitle_tap_action:
+                      action: none
+                    title_tap_action:
+                      action: none
+                    alignment: center
+                columns: 1
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_2_on
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 2 ON
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_2_off
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 2 OFF
+                columns: 2
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Relay 3
+                    subtitle_tap_action:
+                      action: none
+                    title_tap_action:
+                      action: none
+                    alignment: center
+                columns: 1
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_3_on
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 3 ON
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_3_off
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 3 OFF
+                columns: 2
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Relay 4
+                    subtitle_tap_action:
+                      action: none
+                    title_tap_action:
+                      action: none
+                    alignment: center
+                columns: 1
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_4_on
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 4 ON
+                  - type: custom:time-picker-card
+                    entity: input_datetime.programme_timer_4_off
+                    hour_mode: 24
+                    hour_step: 1
+                    minute_step: 1
+                    layout:
+                      hour_mode: single
+                      align_controls: center
+                      name: inside
+                    hide:
+                      seconds: true
+                    name: TIME 4 OFF
+                columns: 2
+      - type: custom:layout-break
+  - type: custom:grid-layout
+    title: Calibration
+    path: Calibration
+    theme: Mushroom Shadow
+    icon: mdi:cog-box
+    badges: []
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-title-card
+                    title: Dosing Pump [STATUS & TEST]
+                  - square: true
+                    type: grid
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ph_down_pump
+                        icon: mdi:water-pump
+                        icon_color: green
+                        layout: vertical
+                        fill_container: true
+                        use_light_color: false
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                      - type: custom:mushroom-light-card
+                        entity: light.ph_up_pump
+                        icon: mdi:water-pump
+                        icon_color: green
+                        layout: vertical
+                        fill_container: true
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                      - type: custom:mushroom-light-card
+                        entity: light.ec_a_pump
+                        icon: mdi:water-pump
+                        icon_color: green
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                      - type: custom:mushroom-light-card
+                        entity: light.ec_b_pump
+                        icon: mdi:water-pump
+                        icon_color: green
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                    columns: 4
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: Dosing Pump [PWM]
+              - type: custom:mushroom-number-card
+                entity: input_number.dosing_pwm_0_ph_down
+                icon_color: pink
+                layout: horizontal
+                display_mode: slider
+                double_tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                tap_action:
+                  action: none
+              - type: custom:mushroom-number-card
+                entity: input_number.dosing_pwm_1_ph_up
+                icon_color: pink
+                fill_container: false
+                display_mode: slider
+                layout: horizontal
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-number-card
+                entity: input_number.dosing_pwm_2_ec_a
+                display_mode: slider
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                layout: horizontal
+                icon_color: yellow
+              - type: custom:mushroom-number-card
+                entity: input_number.dosing_pwm_3_ec_b
+                icon_color: yellow
+                layout: horizontal
+                display_mode: slider
+                tap_action:
+                  action: none
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
